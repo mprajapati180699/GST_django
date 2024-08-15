@@ -1,0 +1,114 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary font-weight-bold">Update Inventory</h2>
+            <hr>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h4 class="font-weight-bold">Product: <span class="text-muted">{{inventory.product}}</span></h4>
+                    <h4 class="font-weight-bold">Current Stock: <span class="text-muted">{{inventory.current_stock}}</span></h4>
+                </div>
+                <div class="col-md-4 text-md-right text-center mt-3 mt-md-0">
+                    <a href="{% url 'inventory_logs_add' inventory.id %}">
+                        <button type="button" class="btn btn-primary btn-lg">Add Update</button>
+                    </a>
+                </div>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group row mb-3">
+                    <label for="{{ form.date.id_for_label }}" class="col-md-4 col-form-label text-md-right font-weight-bold">Date & Time:</label>
+                    <div class="col-md-8">
+                        {{ form.date }}
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="{{ form.change.id_for_label }}" class="col-md-4 col-form-label text-md-right font-weight-bold">Change in Stock:</label>
+                    <div class="col-md-8">
+                        {{ form.change }}
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="{{ form.change_type.id_for_label }}" class="col-md-4 col-form-label text-md-right font-weight-bold">Change Type:</label>
+                    <div class="col-md-8">
+                        {{ form.change_type }}
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="invoice_no" class="col-md-4 col-form-label text-md-right font-weight-bold">Associated Invoice Number:</label>
+                    <div class="col-md-8">
+                        <input type="text" name="invoice_no" id="invoice_no" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="{{ form.description.id_for_label }}" class="col-md-4 col-form-label text-md-right font-weight-bold">Description:</label>
+                    <div class="col-md-8">
+                        {{ form.description }}
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col text-center">
+                        <input type="submit" class="btn btn-success btn-lg px-5" value="Submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        max-width: 900px;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-body {
+        background-color: #f8f9fa;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+        padding: 0.375rem 0.75rem;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .text-primary {
+        color: #007bff !important;
+    }
+</style>
+{% endblock %}

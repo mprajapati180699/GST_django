@@ -1,0 +1,109 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-primary font-weight-bold text-center">Book Details</h2>
+    <hr>
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h3><span class="font-weight-bold">Customer:</span> {{book.customer.customer_name}}</h3>
+            <h3><span class="font-weight-bold">Current Balance:</span> {{book.current_balance}}</h3>
+        </div>
+        <div class="col-lg-4 text-lg-right text-center mt-3 mt-lg-0">
+            <a href="{% url 'book_logs_add' book.id %}" class="btn btn-primary btn-lg">Add Update</a>
+        </div>
+    </div>
+    <hr>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <table class="table table-hover table-striped" id="inventory-logs-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th class="text-right">Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in book_logs %}
+                    <tr class="{% if item.change < 0 %}table-danger{% else %}table-success{%endif%}">
+                        <td>{{item.date}}</td>
+                        <td>{{item.get_change_type_display}} {% if item.associated_invoice %}<a href="{% url 'invoice_viewer' item.associated_invoice.id %}" class="text-info font-weight-bold">[INVOICE]</a>{% endif %}</td>
+                        <td>{{item.description}}</td>
+                        <td class="text-right">{{item.change}} &emsp; {{inventory.product.product_unit}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block includejs %}
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#inventory-logs-table').DataTable({
+        "order": [],
+        "paging": true,
+        "searching": true,
+        "info": true,
+    });
+});
+</script>
+{% endblock %}
+
+{% block styles %}
+<style>
+h2 {
+    color: #007bff;
+}
+
+h3 {
+    color: #333;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-body {
+    background-color: #f8f9fa;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table th, .table td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.table th {
+    text-align: center;
+}
+
+.table .text-right {
+    text-align: right;
+}
+
+.table-danger, .table-success {
+    color: #fff;
+}
+
+.table-danger {
+    background-color: #e74c3c !important;
+}
+
+.table-success {
+    background-color: #2ecc71 !important;
+}
+</style>
+{% endblock %}

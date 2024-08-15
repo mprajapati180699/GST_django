@@ -1,0 +1,85 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col text-center">
+            <h2 class="text-primary font-weight-bold">Customer Book</h2>
+        </div>
+    </div>
+
+    <div class="card shadow-lg mt-4">
+        <div class="card-body p-4">
+            <table class="table table-hover table-striped" id="book-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Customer</th>
+                        <th>Current Balance</th>
+                        <th>Last Transaction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in book_list %}
+                    <tr onclick="window.location='{% url 'book_logs' book.id %}';" style="cursor:pointer;">
+                        <td><a href="{% url 'book_logs' book.id %}" class="text-dark">{{book.customer.customer_name}}</a></td>
+                        <td>{{book.current_balance}}</td>
+                        <td>{{book.last_log}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block includejs %}
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#book-table').DataTable({
+        "order": [],
+        "paging": true,
+        "searching": true,
+        "info": true,
+    });
+});
+</script>
+{% endblock %}
+
+{% block styles %}
+<style>
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table th, .table td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.table th, .table td a {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.table th {
+    text-align: center;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-body {
+    background-color: #f8f9fa;
+}
+
+h2 {
+    color: #007bff;
+}
+</style>
+{% endblock %}

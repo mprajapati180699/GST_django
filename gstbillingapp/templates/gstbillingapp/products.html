@@ -1,0 +1,130 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2 class="text-primary">Products</h2>
+        </div>
+        <div class="col-md-6 text-md-right">
+            <a href="{% url 'product_add' %}" id="add_product_btn">
+                <button type="button" class="btn btn-success btn-lg">Add New Product</button>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover" id="product-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-nowrap">Product Name</th>
+                        <th class="text-nowrap">HSN</th>
+                        <th class="text-nowrap">Rate With GST</th>
+                        <th class="text-nowrap">GST %</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.product_name }}</td>
+                        <td>{{ product.product_hsn }}</td>
+                        <td>{{ product.product_rate_with_gst }}</td>
+                        <td>{{ product.product_gst_percentage }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'product_edit' product.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <button type="button" class="btn btn-danger btn-sm ml-2" data-toggle="modal" data-target="#productDeleteModal" data-product-id="{{ product.id }}" data-product-name="{{ product.product_name }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="productDeleteModal" tabindex="-1" role="dialog" aria-labelledby="productDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="productDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{% url 'product_delete' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Are you sure you want to delete <strong><span class="product-name"></span></strong>?</p>
+                    <input type="hidden" name="product_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br><br><br>
+{% endblock %}
+
+{% block includejs %}
+<script type="text/javascript">
+$('#productDeleteModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var product_id = button.data('product-id')
+    var product_name = button.data('product-name')
+    var modal = $(this)
+    modal.find('.modal-body input').val(product_id)
+    modal.find('.product-name').text(product_name)
+})
+
+$(document).ready(function () {
+    $('#product-table').DataTable({
+        "order": [],
+        "columnDefs": [
+            {
+                "targets": 4,
+                "sortable": false,
+                "searchable": false
+            }
+        ],
+        "paging": true,
+        "searching": true,
+        "info": true
+    });
+});
+</script>
+{% endblock %}
+
+{% block styles %}
+<style>
+.table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table th, .table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.table th {
+    width: 15%; /* Adjust as needed */
+}
+
+.table td {
+    width: 15%; /* Adjust as needed */
+}
+
+.table .btn {
+    width: auto;
+}
+</style>
+{% endblock %}

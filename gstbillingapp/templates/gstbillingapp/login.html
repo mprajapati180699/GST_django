@@ -1,0 +1,30 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg border-0" id="login-card" style="width: 22rem; border-radius: 15px;">
+        <div class="card-header text-center bg-dark text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <h4 class="mb-0">Login</h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="font-weight-bold">Username</label>
+                    <input type="text" name="username" id="username" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="font-weight-bold">Password</label>
+                    <input type="password" name="password" id="password" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <button type="submit" class="btn btn-dark w-100 py-2">Login</button>
+            </form>
+        </div>
+        <div class="card-footer text-center bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+            <a href="{% url 'signup_view' %}" class="text-dark font-weight-bold">Don't have an account? Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h3 style="color: black;">Edit Customer</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <label for="{{ customer_form.customer_name.id_for_label }}" class="col-md-4 text-right font-weight-bold">Customer Name:</label>
+                            <div class="col-md-8">
+                                {{ customer_form.customer_name }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ customer_form.customer_address.id_for_label }}" class="col-md-4 text-right font-weight-bold">Customer Address:</label>
+                            <div class="col-md-8">
+                                {{ customer_form.customer_address }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ customer_form.customer_phone.id_for_label }}" class="col-md-4 text-right font-weight-bold">Customer Phone:</label>
+                            <div class="col-md-8">
+                                {{ customer_form.customer_phone }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ customer_form.customer_gst.id_for_label }}" class="col-md-4 text-right font-weight-bold">Customer GST:</label>
+                            <div class="col-md-8">
+                                {{ customer_form.customer_gst }}
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col text-center">
+                                <input type="submit" class="btn btn-success btn-lg px-5" value="Save Changes">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

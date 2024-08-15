@@ -1,0 +1,57 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-gradient-primary text-white text-center py-4">
+                    <h3 style="color: black;">Edit Product</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row mb-3">
+                            <label for="{{ product_form.product_name.id_for_label }}" class="col-md-4 text-right font-weight-bold">Product Name:</label>
+                            <div class="col-md-8">
+                                {{ product_form.product_name }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ product_form.product_hsn.id_for_label }}" class="col-md-4 text-right font-weight-bold">HSN:</label>
+                            <div class="col-md-8">
+                                {{ product_form.product_hsn }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ product_form.product_unit.id_for_label }}" class="col-md-4 text-right font-weight-bold">Product Unit:</label>
+                            <div class="col-md-8">
+                                {{ product_form.product_unit }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ product_form.product_gst_percentage.id_for_label }}" class="col-md-4 text-right font-weight-bold">GST %:</label>
+                            <div class="col-md-8">
+                                {{ product_form.product_gst_percentage }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label for="{{ product_form.product_rate_with_gst.id_for_label }}" class="col-md-4 text-right font-weight-bold">Rate with GST:</label>
+                            <div class="col-md-8">
+                                {{ product_form.product_rate_with_gst }}
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col text-center">
+                                <input type="submit" class="btn btn-success btn-lg px-5" value="Save Changes">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

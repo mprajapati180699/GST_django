@@ -1,0 +1,57 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<br>
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow-lg border-0" id="signup-card" style="width: 30rem; border-radius: 15px;">
+        <div class="card-header text-center bg-dark text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+            <h4 class="mb-0">Sign Up</h4>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="font-weight-bold">Username</label>
+                    <input type="text" name="username" id="username" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="font-weight-bold">Password</label>
+                    <input type="password" name="password1" id="password1" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="font-weight-bold">Confirm Password</label>
+                    <input type="password" name="password2" id="password2" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="business_title" class="font-weight-bold">Business Name</label>
+                    <input type="text" name="business_title" id="business_title" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="business_address" class="font-weight-bold">Address</label>
+                    <input type="text" name="business_address" id="business_address" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="business_email" class="font-weight-bold">Email</label>
+                    <input type="email" name="business_email" id="business_email" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="business_phone" class="font-weight-bold">Phone</label>
+                    <input type="tel" name="business_phone" id="business_phone" class="w-100 p-2 border rounded" style="outline: none;">
+                </div>
+                <div class="mb-4">
+                    <label for="business_gst" class="font-weight-bold">GST</label>
+                    <input type="text" name="business_gst" id="business_gst" class="w-100 p-2 border rounded" style="outline: none;" pattern="([A-Za-z0-9]{15})|(^$)">
+                </div>
+                <button type="submit" class="btn btn-dark w-100 py-2">Sign Up</button>
+            </form>
+        </div>
+        <div class="card-footer text-center bg-light" style="border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+            <a href="{% url 'login_view' %}" class="text-dark font-weight-bold">Already have an account? Login</a>
+        </div>
+    </div>
+</div>
+<br><br>
+
+{% endblock %}

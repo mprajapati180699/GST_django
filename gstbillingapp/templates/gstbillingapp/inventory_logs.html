@@ -1,0 +1,104 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary font-weight-bold text-center">Inventory Details</h2>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="font-weight-bold">Product: <span class="text-muted">{{inventory.product}}</span></h4>
+                    <h4 class="font-weight-bold">Current Stock: <span class="text-muted">{{inventory.current_stock}}</span></h4>
+                </div>
+                <div class="col-md-4 text-md-right text-center mt-3 mt-md-0">
+                    <a href="{% url 'inventory_logs_add' inventory.id %}">
+                        <button type="button" class="btn btn-success btn-lg">Add Update</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+            <table class="table table-hover table-striped" id="inventory-logs-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th class="text-right">Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory_logs %}
+                    <tr class="{% if item.change < 0 %}table-danger{% else %}table-success{%endif%}">
+                        <td>{{item.date}}</td>
+                        <td>
+                            {{item.get_change_type_display}}
+                            {% if item.associated_invoice %}
+                            <a href="{% url 'invoice_viewer' item.associated_invoice.id %}">[INVOICE]</a>
+                            {% endif %}
+                        </td>
+                        <td>{{item.description}}</td>
+                        <td class="text-right">{{item.change}} &emsp; {{inventory.product.product_unit}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-body {
+        background-color: #f8f9fa;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .table-danger {
+        background-color: #f8d7da;
+    }
+
+    .table-success {
+        background-color: #d4edda;
+    }
+</style>
+{% endblock %}
+
+{% block includejs %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#inventory-logs-table').DataTable({
+        "order": [],
+        "paging": true,
+    });
+});
+</script>
+{% endblock %}

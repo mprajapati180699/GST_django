@@ -1,0 +1,90 @@
+{% extends "gstbillingapp/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h2 class="text-primary font-weight-bold text-center">Inventory</h2>
+        </div>
+    </div>
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+            <table class="table table-hover table-striped" id="inventory-table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Current Stock</th>
+                        <th scope="col">Last Transaction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inventory in inventory_list %}
+                    <tr onclick="window.location='{% url 'inventory_logs' inventory.id %}';" style="cursor: pointer;">
+                        <td><a href="{% url 'inventory_logs' inventory.id %}" class="text-dark">{{inventory.product.product_name}}</a></td>
+                        <td>{{inventory.current_stock}}</td>
+                        <td>{{inventory.last_log}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br><br>
+{% endblock %}
+
+{% block styles %}
+<style>
+    h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-body {
+        background-color: #f8f9fa;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    td a {
+        text-decoration: none;
+    }
+
+    td a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block includejs %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#inventory-table').DataTable({
+        "order": [],
+        "paging": true,
+        "columnDefs": [{
+            "targets": 2,
+            "orderable": false,
+            "searchable": false
+        }]
+    });
+});
+</script>
+{% endblock %}
