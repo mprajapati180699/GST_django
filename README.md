@@ -1,8 +1,5 @@
-Here's a detailed `README.md` for your Django-based GST Billing System:
-
----
-
 # GST Billing System
+---
 
 A comprehensive GST Billing System built using the Django framework. This system is designed to simplify the process of managing customer details, inventory, and generating GST-compliant invoices. It also provides various reports to help businesses stay on top of their finances.
 
@@ -66,20 +63,6 @@ A comprehensive GST Billing System built using the Django framework. This system
    ```
 
    Access the application at `http://127.0.0.1:8000/`.
-
-### Docker Setup (Optional)
-
-If you prefer to use Docker for deployment:
-
-1. **Build the Docker image**:
-   ```bash
-   docker build -t gst-billing-system .
-   ```
-
-2. **Run the Docker container**:
-   ```bash
-   docker run -d -p 8000:8000 gst-billing-system
-   ```
 
 ## Usage
 
